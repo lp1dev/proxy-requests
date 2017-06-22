@@ -3,6 +3,7 @@
 import json
 import requests
 import random
+import asyncio
 
 REPORT_FILE = "report.json"
 
@@ -24,7 +25,6 @@ class   ProxyRequest():
     while choice['detected'] != self.use_detected:
       choice = random.choice(self.report[0:self.use_top])
     return choice
-    
   
   def request(self, method, url, **kwargs):
     proxy = self.select_proxy()['proxy']
@@ -44,12 +44,13 @@ class   ProxyRequest():
 
   def post(self, url, **kwargs):
     return self.request("POST", url, **kwargs)
-
+  
 def	main():
+  url = "https://monip.org"
   request = ProxyRequest(REPORT_FILE, use_detected=False)
-  r = request.get("http://monip.org")
+  r = request.get(url)
   print(r.text)
   return 0
 
 if __name__ == '__main__':
-  main()
+  exit(main())
